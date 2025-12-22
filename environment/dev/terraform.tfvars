@@ -1,6 +1,6 @@
 rgs = {
   rg1 = {
-    name       = "todo-app"
+    name       = "anjali"
     location   = "West US"
     managed_by = "Anjali"
   }
@@ -9,7 +9,7 @@ rgs = {
 vnets = {
   vnet1 = {
     name                = "vnet-test"
-    resource_group_name = "todo-app"
+    resource_group_name = "anjali"
     location            = "West US"
     address_space       = ["10.0.0.0/16"]
     subnet = [
@@ -26,7 +26,7 @@ vnets = {
 pips = {
   pip1 = {
     name                = "pip-test1"
-    resource_group_name = "todo-app"
+    resource_group_name = "anjali"
     location            = "West US"
     allocation_method   = "Static"
 
@@ -35,9 +35,9 @@ pips = {
 
 keys = {
   key1 = {
-    kv_name  = "key-anji"
+    kv_name  = "keyanji100"
     location = "West US"
-    rg_name  = "todo-app"
+    rg_name  = "anjali"
     sku_name = "standard"
     rbac_authorization_enabled = true
     public_network_access_enabled = true
@@ -46,14 +46,14 @@ keys = {
 
 secrets = {
   sec1 = {
-    kv_name      = "key-anji"
-    rg_name      = "todo-app"
+    kv_name      = "keyanji100"
+    rg_name      = "anjali"
     secret_name  = "adminu"
     secret_value = "anjalikvsecret"
   }
   sec2 = {
-    kv_name      = "key-anji"
-    rg_name      = "todo-app"
+    kv_name      = "keyanji100"
+    rg_name      = "anjali"
 
     secret_name  = "adminpass"
     secret_value = "Anjali@12345"
@@ -65,7 +65,7 @@ vms = {
     subnet_name = "subnet11"
     vnet_name   = "vnet-test"
     pip_name    = "pip-test1"
-    kv_name = "key-anji"
+    kv_name = "keyanji100"
     secret_name = "adminu"
     secret_value = "adminpass"
 
@@ -77,7 +77,7 @@ vms = {
     ]
 
     vm_name             = "vm1-test"
-    resource_group_name = "todo-app"
+    resource_group_name = "anjali"
     location            = "West US"
     size                = "Standard_F2"
     admin_username      = "vm1"
@@ -106,7 +106,7 @@ nsgs = {
   nsg1 = {
 
     nsg_name                = "nsg1"
-    resource_group_name = "todo-app"
+    resource_group_name = "anjali"
     location            = "West US"
     subnet_name = "subnet11"
     virtual_network_name = "vnet-test"
@@ -131,7 +131,7 @@ servers = {
   server1 = {
     name = "anjaliserver1"
     location = "West US"
-    resource_group_name = "todo-app"
+    resource_group_name = "anjali"
     administrator_login = "server12"
     administrator_login_password = "Anjali@12345"
     version                      = "12.0"
@@ -142,7 +142,7 @@ databases = {
   db1 = {
       name = "anjalidb121"
       server_name = "anjaliserver1"
-      resource_group_name = "todo-app"
+      resource_group_name = "anjali"
       collation    = "SQL_Latin1_General_CP1_CI_AS"
       license_type = "LicenseIncluded"
       max_size_gb  = 2
@@ -155,7 +155,7 @@ stgs = {
   stg1 = {
     name = "stganji1289"
     location = "West US"
-    resource_group_name = "todo-app"
+    resource_group_name = "anjali"
     account_tier             = "Standard"
     account_replication_type = "GRS"
 
@@ -165,7 +165,7 @@ stgs = {
 acrs = {
     acr1 = {
         name = "acrwanjali1"
-        resource_group_name = "todo-app"
+        resource_group_name = "anjali"
         location = "West US"
         sku = "Premium"
         admin_enabled = false
