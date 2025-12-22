@@ -11,6 +11,10 @@ stages:
   - job: InitAndPlan
     displayName: InitAndPlan Job
     steps:
+    - task: TerraformInstaller@1
+      displayName: terraform installer
+      inputs:
+        terraformVersion: '1.13.1'
     - task: TerraformTask@5
       displayName: Terraform Init
       inputs:
