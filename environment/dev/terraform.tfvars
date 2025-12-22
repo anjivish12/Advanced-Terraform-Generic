@@ -175,14 +175,14 @@ acrs = {
 
 aks = {
     aks1 = {
-        name = "aks-1"
-        resource_group_name = "todo-app"
-        location = "Central US"
+        name = "aks098"
+        resource_group_name = "anjali-rg"
+        location = "North Central US"
         dns_prefix = "dns1"
         default_node_pool = [{
            name       = "default"
            node_count = 1
-           vm_size    = "Standard_A2_v2"
+           vm_size    = "Standard_D2as_v5"
         }]
         identity = [{
             type = "SystemAssigned"
