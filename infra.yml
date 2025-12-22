@@ -1,0 +1,143 @@
+trigger:
+- main
+
+pool: anjalipool
+
+stages:
+
+- stage: InitAndPlan
+  displayName: InitAndPlan
+  jobs:
+  - job: InitAndPlan
+    displayName: InitAndPlan Job
+    steps:
+    - task: TerraformTask@5
+      displayName: Terraform Init
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: '$(System.DefaultWorkingDirectory)\environment\dev'
+        backendServiceArm: 'simplecred'
+        backendAzureRmStorageAccountName: 'stg1234anji'
+        backendAzureRmContainerName: 'tfstate'
+        backendAzureRmKey: 'terraform.tfstate'
+
+- stage: Planning
+  displayName: Planning
+  jobs:
+  - job: Planning
+    displayName: Planning Job
+    steps:
+     - task: TerraformTask@5
+       displayName: Terraform Init
+       inputs:
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: '$(System.DefaultWorkingDirectory)\environment\dev'
+        backendServiceArm: 'simplecred'
+        backendAzureRmStorageAccountName: 'stg1234anji'
+        backendAzureRmContainerName: 'tfstate'
+        backendAzureRmKey: 'terraform.tfstate'
+
+     - task: TerraformTask@5
+       displayName: Terraform Plan
+       inputs:
+        provider: 'azurerm'
+        command: 'plan'
+        workingDirectory: '$(System.DefaultWorkingDirectory)\environment\dev'
+        environmentServiceNameAzureRM: 'simplecred'
+
+- stage: Linting
+  displayName: Linting
+  
+  jobs:
+  - job: Linting
+    displayName: Linting Job
+    steps:
+    - task: PowerShell@2
+      displayName: tflint
+      continueOnError: true
+
+      inputs:
+        targetType: 'inline'
+        script: 'tflint'
+        workingDirectory: '$(System.DefaultWorkingDirectory)\environment\dev'
+
+- stage: SecurityScanning
+  displayName: Security Scanning
+  jobs:
+      - job:  SecurityScanning
+        displayName:  Security Scanning
+        steps:
+        - task: PowerShell@2
+          continueOnError: true
+          inputs:
+            targetType: 'inline'
+            script: 'tfsec'
+            workingDirectory: '$(System.DefaultWorkingDirectory)\environment\dev'
+        
+
+- stage: InfraCosting
+  displayName: Infra Costing
+  jobs:
+  - job: InfraCost
+    displayName: Infra Costing Job
+    steps:
+
+    - task: TerraformTask@5
+      displayName: Terraform Init
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: '$(System.DefaultWorkingDirectory)\environment\dev'
+        backendServiceArm: 'simplecred'
+        backendAzureRmStorageAccountName: 'stg1234anji'
+        backendAzureRmContainerName: 'tfstate'
+        backendAzureRmKey: 'terraform.tfstate'
+    - task: PowerShell@2
+      displayName: Costing
+      inputs:
+        targetType: 'inline'
+        script: 'infracost breakdown --path .'
+        workingDirectory: '$(System.DefaultWorkingDirectory)\environment\dev'
+
+- stage: ManualValidation
+  displayName: Manual Validation
+  pool: server
+  jobs:
+  - job: ManualValidation
+    displayName: ManualValidation Job
+    steps:
+    - task: ManualValidation@1
+      displayName: manual validation
+      inputs:
+        notifyUsers: 'anjalivishwakarma12@outlook.com'
+        approvers: 'anjalivishwakarma12@outlook.com'
+        instructions: 'kindly approve'
+
+- stage: Deploy
+  displayName: Deploy
+  jobs:
+  - job: Deploy
+    displayName: Deploy
+    steps:
+    - task: TerraformTask@5
+      displayName: Terraform init
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: '$(System.DefaultWorkingDirectory)\environment\dev'
+        backendServiceArm: 'simplecred'
+        backendAzureRmStorageAccountName: 'stg1234anji'
+        backendAzureRmContainerName: 'tfstate'
+        backendAzureRmKey: 'terraform.tfstate'
+    
+    - task: TerraformTask@5
+      displayName: apply
+      inputs:
+        provider: 'azurerm'
+        command: 'apply'
+        workingDirectory: '$(System.DefaultWorkingDirectory)\environment\dev'
+        environmentServiceNameAzureRM: 'simplecred'
+
+   
