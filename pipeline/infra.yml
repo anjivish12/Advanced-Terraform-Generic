@@ -52,19 +52,6 @@ stages:
         environmentServiceNameAzureRM: 'simplecred'
 
 
-- stage: manaualvalidation
-  displayName: manaualvalidation
-  pool: server
-  jobs:
-  - job: manaualvalidation
-    displayName: manaualvalidation Job
-    steps:
-    - task: ManualValidation@1
-      displayName: Manual Validation
-      inputs:
-        notifyUsers: 'anji.vish12@gmail.com'
-        approvers: 'anji.vish12@gmail.com'
-
 - stage: security
   displayName: security
   jobs:
@@ -91,6 +78,21 @@ stages:
         script: 'tflint'
         workingDirectory: '$(System.DefaultWorkingDirectory)\environment\dev'
 
+
+- stage: manaualvalidation
+  displayName: manaualvalidation
+  pool: server
+  jobs:
+  - job: manaualvalidation
+    displayName: manaualvalidation Job
+    steps:
+    - task: ManualValidation@1
+      displayName: Manual Validation
+      inputs:
+        notifyUsers: 'anji.vish12@gmail.com'
+        approvers: 'anji.vish12@gmail.com'
+        instructions: 'kindly approve'
+        
 - stage: Deploy
   displayName: Deploy
   jobs:
