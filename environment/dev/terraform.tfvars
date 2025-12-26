@@ -79,7 +79,7 @@ vms = {
     vm_name             = "vm1-test"
     resource_group_name = "anjali"
     location            = "West US"
-    size                = "Standard_F2"
+    size                = "Standard_D2s_v3"
     admin_username      = "vm1"
     admin_password      = "Anjali@12345"
 
