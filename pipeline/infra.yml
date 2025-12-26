@@ -54,10 +54,10 @@ stages:
 
 - stage: manaualvalidation
   displayName: manaualvalidation
+  pool: server
   jobs:
   - job: manaualvalidation
     displayName: manaualvalidation Job
-    pool: server
     steps:
     - task: ManualValidation@1
       displayName: Manual Validation
