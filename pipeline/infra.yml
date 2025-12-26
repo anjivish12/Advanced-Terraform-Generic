@@ -39,6 +39,7 @@ stages:
         provider: 'azurerm'
         command: 'init'
         workingDirectory: '$(System.DefaultWorkingDirectory)\environment\dev'
+        backendServiceArm: 'simplecred'
         backendAzureRmStorageAccountName: 'stg1234anji'
         backendAzureRmContainerName: 'tfstate'
         backendAzureRmKey: 'adv.tfstate'
