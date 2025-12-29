@@ -31,7 +31,7 @@ stages:
       inputs:
         provider: 'azurerm'
         command: 'custom'
-        workingDirectory: $(workDir)
+        workingDirectory: '$(workDir)'
         outputTo: 'console'
         customCommand: 'fmt'
         environmentServiceNameAzureRM: 'simplecred'
@@ -41,25 +41,25 @@ stages:
       inputs:
         provider: 'azurerm'
         command: 'init'
-        workingDirectory: $(workDir)
+        workingDirectory: '$(workDir)'
         backendServiceArm: 'simplecred'
         backendAzureRmStorageAccountName: 'stg1234anji'
         backendAzureRmContainerName: 'tfstate'
-        backendAzureRmKey: $(backend)
+        backendAzureRmKey: '$(backend)'
 
     - task: TerraformTask@5
       displayName: validate
       inputs:
         provider: 'azurerm'
         command: 'validate'
-        workingDirectory: $(workDir)
+        workingDirectory: '$(workDir)'
 
     - task: PowerShell@2
       displayName: tfsec
       inputs:
         targetType: 'inline'
         script: 'tfsec'
-        workingDirectory: $(workDir)
+        workingDirectory: '$(workDir)'
 
     - task: PowerShell@2
       displayName: tflint
@@ -67,7 +67,7 @@ stages:
       inputs:
         targetType: 'inline'
         script: 'tflint'
-        workingDirectory: $(workDir)
+        workingDirectory: '$(workDir)'
 
 - stage: Coststage
   displayName: Cost & Imapct Assessment stage
@@ -81,18 +81,18 @@ stages:
       inputs:
         provider: 'azurerm'
         command: 'init'
-        workingDirectory: $(workDir)
+        workingDirectory: '$(workDir)'
         backendServiceArm: 'simplecred'
         backendAzureRmStorageAccountName: 'stg1234anji'
         backendAzureRmContainerName: 'tfstate'
-        backendAzureRmKey: $(backend)
+        backendAzureRmKey: '$(backend)'
 
     - task: PowerShell@2
       displayName: infra cost
       inputs:
         targetType: 'inline'
         script: 'infracost breakdown --path .'
-        workingDirectory: $(workDir)
+        workingDirectory: '$(workDir)'
 
 - stage: Planning
   displayName: Plan & Review Stage
@@ -105,18 +105,18 @@ stages:
       inputs:
         provider: 'azurerm'
         command: 'init'
-        workingDirectory: $(workDir)
+        workingDirectory: '$(workDir)'
         backendServiceArm: 'simplecred'
         backendAzureRmStorageAccountName: 'stg1234anji'
         backendAzureRmContainerName: 'tfstate'
-        backendAzureRmKey: $(backend)
+        backendAzureRmKey: '$(backend)'
     
     - task: TerraformTask@5
       displayName: plan
       inputs:
         provider: 'azurerm'
         command: 'plan'
-        workingDirectory: $(workDir)
+        workingDirectory: '$(workDir)'
         environmentServiceNameAzureRM: 'simplecred'
 
 - stage: manualvalidation
@@ -143,16 +143,16 @@ stages:
       inputs:
         provider: 'azurerm'
         command: 'init'
-        workingDirectory: $(workDir)
+        workingDirectory: '$(workDir)'
         backendServiceArm: 'simplecred'
         backendAzureRmStorageAccountName: 'stg1234anji'
         backendAzureRmContainerName: 'tfstate'
-        backendAzureRmKey: $(backend)
+        backendAzureRmKey: '$(backend)'
 
     - task: TerraformTask@5
       displayName: apply
       inputs:
         provider: 'azurerm'
         command: 'apply'
-        workingDirectory: $(workDir)
+        workingDirectory: '$(workDir)'
         environmentServiceNameAzureRM: 'simplecred'
