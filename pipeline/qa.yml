@@ -1,1 +1,144 @@
 
+trigger:
+- main
+
+pool: anjalipool
+
+stages:
+
+- stage: precommitstage
+  displayName: Pre-commit / Static Analysis Stage
+  jobs:
+  - job: Precommit 
+    displayName: Pre-commit / Static Analysis
+    steps:
+    - task: TerraformTask@5
+      displayName: fmt
+      inputs:
+        provider: 'azurerm'
+        command: 'custom'
+        workingDirectory: '$(System.DefaultWorkingDirectory)\environment\qa'
+        outputTo: 'console'
+        customCommand: 'fmt'
+        environmentServiceNameAzureRM: 'simplecred'
+      
+    - task: TerraformTask@5
+      displayName: init
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: '$(System.DefaultWorkingDirectory)\environment\qa'
+        backendServiceArm: 'simplecred'
+        backendAzureRmStorageAccountName: 'stg1234anji'
+        backendAzureRmContainerName: 'tfstate'
+        backendAzureRmKey: 'dev.tfstate'
+
+    - task: TerraformTask@5
+      displayName: validate
+      inputs:
+        provider: 'azurerm'
+        command: 'validate'
+        workingDirectory: '$(System.DefaultWorkingDirectory)\environment\qa'
+
+    - task: PowerShell@2
+      displayName: tfsec
+      inputs:
+        targetType: 'inline'
+        script: 'tfsec'
+        workingDirectory: '$(System.DefaultWorkingDirectory)\environment\qa'
+
+    - task: PowerShell@2
+      displayName: tflint
+      continueOnError: true
+      inputs:
+        targetType: 'inline'
+        script: 'tflint'
+        workingDirectory: '$(System.DefaultWorkingDirectory)\environment\qa'
+
+- stage: Coststage
+  displayName: Cost & Imapct Assessment stage
+  jobs:
+  - job: cost 
+    displayName: Cost & Imapct Assessment 
+    steps:
+
+    - task: TerraformTask@5
+      displayName: init
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: '$(System.DefaultWorkingDirectory)\environment\qa'
+        backendServiceArm: 'simplecred'
+        backendAzureRmStorageAccountName: 'stg1234anji'
+        backendAzureRmContainerName: 'tfstate'
+        backendAzureRmKey: 'dev.tfstate'
+
+    - task: PowerShell@2
+      displayName: infra cost
+      inputs:
+        targetType: 'inline'
+        script: 'infracost breakdown --path .'
+        workingDirectory: '$(System.DefaultWorkingDirectory)\environment\qa'
+
+- stage: Planning
+  displayName: Plan & Review Stage
+  jobs:
+  - job: planning
+    displayName: Plan & Review 
+    steps:
+    - task: TerraformTask@5
+      displayName: init
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: '$(System.DefaultWorkingDirectory)\environment\qa'
+        backendServiceArm: 'simplecred'
+        backendAzureRmStorageAccountName: 'stg1234anji'
+        backendAzureRmContainerName: 'tfstate'
+        backendAzureRmKey: 'dev.tfstate'
+    
+    - task: TerraformTask@5
+      displayName: plan
+      inputs:
+        provider: 'azurerm'
+        command: 'plan'
+        workingDirectory: '$(System.DefaultWorkingDirectory)\environment\qa'
+        environmentServiceNameAzureRM: 'simplecred'
+
+- stage: manualvalidation
+  displayName: Approval & Goverance Stage
+  jobs:
+  - job: ApprovalGoverance
+    displayName: Approval & Goverance 
+    pool: server
+    steps:
+    - task: ManualValidation@1
+      displayName: manualvalidation
+      inputs:
+        notifyUsers: 'anjalivishwakarma12@outlook.com'
+        approvers: 'anjalivishwakarma12@outlook.com'
+
+- stage: Deploy
+  displayName: Deploy / Apply stage
+  jobs:
+  - job: Deploy 
+    displayName: Deploy / Apply 
+    steps:
+    - task: TerraformTask@5
+      displayName: init
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: '$(System.DefaultWorkingDirectory)\environment\qa'
+        backendServiceArm: 'simplecred'
+        backendAzureRmStorageAccountName: 'stg1234anji'
+        backendAzureRmContainerName: 'tfstate'
+        backendAzureRmKey: 'dev.tfstate'
+
+    - task: TerraformTask@5
+      displayName: apply
+      inputs:
+        provider: 'azurerm'
+        command: 'apply'
+        workingDirectory: '$(System.DefaultWorkingDirectory)\environment\qa'
+        environmentServiceNameAzureRM: 'simplecred'
