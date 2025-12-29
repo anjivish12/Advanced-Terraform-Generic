@@ -76,7 +76,7 @@ stages:
       displayName: infra cost
       inputs:
         targetType: 'inline'
-        script: 'infracost --breakdown --path=.'
+        script: 'infracost --breakdown --path .'
         workingDirectory: '$(System.DefaultWorkingDirectory)\environment\dev'
 
 - stage: Planning
