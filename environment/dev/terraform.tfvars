@@ -164,7 +164,7 @@ stgs = {
 
 acrs = {
     acr1 = {
-        name = "acrwrg-anjali-dev1"
+        name = "devacr"
         resource_group_name = "rg-anjali-dev"
         location = "West US"
         sku = "Premium"
