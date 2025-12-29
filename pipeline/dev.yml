@@ -5,59 +5,40 @@ pool: anjalipool
 
 stages:
 
-- stage: InstallAndInit
-  displayName: InstallAndInit
+- stage: precommitstage
+  displayName: Pre-commit / Static Analysis Stage
   jobs:
-  - job: InstallAndInit
-    displayName: InstallAndInit Job
-    steps:
-    - task: TerraformInstaller@1
-      displayName: Terraform Install
-      inputs:
-        terraformVersion: '1.13.1'
-    
-    - task: TerraformTask@5
-      displayName: Terraform Init
-      inputs:
-        provider: 'azurerm'
-        command: 'init'
-        workingDirectory: '$(System.DefaultWorkingDirectory)\environment\dev'
-        backendServiceArm: 'simplecred'
-        backendAzureRmStorageAccountName: 'stg1234anji'
-        backendAzureRmContainerName: 'tfstate'
-        backendAzureRmKey: 'adv.tfstate'
-
-- stage: InitAndPlan
-  displayName: InitAndPlan
-  jobs:
-  - job: InitAndPlan
-    displayName: InitAndPlan Job
+  - job: Precommit 
+    displayName: Pre-commit / Static Analysis
     steps:
     - task: TerraformTask@5
-      displayName: Terraform Init
+      displayName: fmt
       inputs:
         provider: 'azurerm'
-        command: 'init'
+        command: 'custom'
         workingDirectory: '$(System.DefaultWorkingDirectory)\environment\dev'
-        backendServiceArm: 'simplecred'
-        backendAzureRmStorageAccountName: 'stg1234anji'
-        backendAzureRmContainerName: 'tfstate'
-        backendAzureRmKey: 'adv.tfstate'
-    - task: TerraformTask@5
-      displayName: Plan
-      inputs:
-        provider: 'azurerm'
-        command: 'plan'
-        workingDirectory: '$(System.DefaultWorkingDirectory)\environment\dev'
+        outputTo: 'console'
+        customCommand: 'fmt'
         environmentServiceNameAzureRM: 'simplecred'
+      
+    - task: TerraformTask@5
+      displayName: init
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: '$(System.DefaultWorkingDirectory)\environment\dev'
+        backendServiceArm: 'simplecred'
+        backendAzureRmStorageAccountName: 'stg1234anji'
+        backendAzureRmContainerName: 'tfstate'
+        backendAzureRmKey: 'dev.tfstate'
 
+    - task: TerraformTask@5
+      displayName: validate
+      inputs:
+        provider: 'azurerm'
+        command: 'validate'
+        workingDirectory: '$(System.DefaultWorkingDirectory)\environment\dev'
 
-- stage: security
-  displayName: security
-  jobs:
-  - job: security
-    displayName: security Job
-    steps:
     - task: PowerShell@2
       displayName: tfsec
       inputs:
@@ -65,12 +46,6 @@ stages:
         script: 'tfsec'
         workingDirectory: '$(System.DefaultWorkingDirectory)\environment\dev'
 
-- stage: linting
-  displayName: linting
-  jobs:
-  - job: linting
-    displayName: linting
-    steps:
     - task: PowerShell@2
       displayName: tflint
       continueOnError: true
@@ -79,31 +54,15 @@ stages:
         script: 'tflint'
         workingDirectory: '$(System.DefaultWorkingDirectory)\environment\dev'
 
-
-# - stage: manaualvalidation
-#   displayName: manaualvalidation
-#   pool: server
-#   jobs:
-#   - job: manaualvalidation
-#     displayName: manaualvalidation Job
-    
-#     steps:
-#     - task: ManualValidation@1
-      
-#       displayName: Manual Validation
-#       inputs:
-#         notifyUsers: 'anji.vish12@gmail.com'
-#         approvers: 'anji.vish12@gmail.com'
-#         instructions: 'kindly approve'
-        
-- stage: Deploy
-  displayName: Deploy
+- stage: Coststage
+  displayName: Cost & Imapct Assessment stage
   jobs:
-  - job: deploy
-    displayName: deploy
+  - job: cost 
+    displayName: Cost & Imapct Assessment 
     steps:
+
     - task: TerraformTask@5
-      displayName: Terraform Init
+      displayName: init
       inputs:
         provider: 'azurerm'
         command: 'init'
@@ -111,7 +70,70 @@ stages:
         backendServiceArm: 'simplecred'
         backendAzureRmStorageAccountName: 'stg1234anji'
         backendAzureRmContainerName: 'tfstate'
-        backendAzureRmKey: 'adv.tfstate'
+        backendAzureRmKey: 'dev.tfstate'
+
+    - task: PowerShell@2
+      displayName: infra cost
+      inputs:
+        targetType: 'inline'
+        script: 'infracost breakdown --path .'
+        workingDirectory: '$(System.DefaultWorkingDirectory)\environment\dev'
+
+- stage: Planning
+  displayName: Plan & Review Stage
+  jobs:
+  - job: planning
+    displayName: Plan & Review 
+    steps:
+    - task: TerraformTask@5
+      displayName: init
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: '$(System.DefaultWorkingDirectory)\environment\dev'
+        backendServiceArm: 'simplecred'
+        backendAzureRmStorageAccountName: 'stg1234anji'
+        backendAzureRmContainerName: 'tfstate'
+        backendAzureRmKey: 'dev.tfstate'
+    
+    - task: TerraformTask@5
+      displayName: plan
+      inputs:
+        provider: 'azurerm'
+        command: 'plan'
+        workingDirectory: '$(System.DefaultWorkingDirectory)\environment\dev'
+        environmentServiceNameAzureRM: 'simplecred'
+
+- stage: manualvalidation
+  displayName: Approval & Goverance Stage
+  jobs:
+  - job: ApprovalGoverance
+    displayName: Approval & Goverance 
+    pool: server
+    steps:
+    - task: ManualValidation@1
+      displayName: manualvalidation
+      inputs:
+        notifyUsers: 'anjalivishwakarma12@outlook.com'
+        approvers: 'anjalivishwakarma12@outlook.com'
+
+- stage: Deploy
+  displayName: Deploy / Apply stage
+  jobs:
+  - job: Deploy 
+    displayName: Deploy / Apply 
+    steps:
+    - task: TerraformTask@5
+      displayName: init
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: '$(System.DefaultWorkingDirectory)\environment\dev'
+        backendServiceArm: 'simplecred'
+        backendAzureRmStorageAccountName: 'stg1234anji'
+        backendAzureRmContainerName: 'tfstate'
+        backendAzureRmKey: 'dev.tfstate'
+
     - task: TerraformTask@5
       displayName: apply
       inputs:
