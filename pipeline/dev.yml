@@ -71,12 +71,13 @@ stages:
         backendAzureRmStorageAccountName: 'stg1234anji'
         backendAzureRmContainerName: 'tfstate'
         backendAzureRmKey: 'dev.tfstate'
+
     - task: PowerShell@2
       displayName: infra cost
       inputs:
         targetType: 'inline'
-        script: 'infracost --breakdown --path=$(System.DefaultWorkingDirectory)\environment\dev'
-
+        script: 'infracost --breakdown --path=.'
+        workingDirectory: '$(System.DefaultWorkingDirectory)\environment\dev'
 
 - stage: Planning
   displayName: Plan & Review Stage
