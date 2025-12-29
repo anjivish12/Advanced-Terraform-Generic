@@ -2,7 +2,7 @@ rgs = {
   rg1 = {
     name       = "rg-anjali-qa"
     location   = "West US"
-    managed_by = "rg-qa"
+    managed_by = "prod"
   }
 }
 
@@ -79,7 +79,7 @@ vms = {
     vm_name             = "vm1-test"
     resource_group_name = "rg-anjali-qa"
     location            = "West US"
-    size                = "Standard_D2s_v3"
+    size                = "Standard_D4s_v3"
     admin_username      = "vm1"
     admin_password      = "rg-anjali-qa@12345"
 
@@ -153,7 +153,7 @@ databases = {
 
 stgs = {
   stg1 = {
-    name = "stganji1289"
+    name = "stganji1289qa"
     location = "West US"
     resource_group_name = "rg-anjali-qa"
     account_tier             = "Standard"
@@ -164,7 +164,7 @@ stgs = {
 
 acrs = {
     acr1 = {
-        name = "acrwrg-anjali-qa1"
+        name = "qaacr1098"
         resource_group_name = "rg-anjali-qa"
         location = "West US"
         sku = "Premium"
@@ -175,7 +175,7 @@ acrs = {
 
 aks = {
     aks1 = {
-        name = "aks098"
+        name = "qaaks098"
         resource_group_name = "rg-anjali-qa"
         location = "North Central US"
         dns_prefix = "dns1"
