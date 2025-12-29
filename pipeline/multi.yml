@@ -16,7 +16,7 @@ parameters:
 
 variables:
   workDir: '$(System.DefaultWorkingDirectory)\environment\${parameters.environment}'
-  backend: 'dev.tfstate'
+  backend: '$(parameters.environment).tfstate'
 
 stages:
 
