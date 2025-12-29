@@ -15,8 +15,8 @@ parameters:
   default: dev
 
 variables:
-  workDir: '$(System.DefaultWorkingDirectory)\environment\${parameters.environment}'
-  backend: '$(parameters.environment).tfstate'
+  workDir: '$(System.DefaultWorkingDirectory)\environment\${{parameters.environment}}'
+  backend: '${{parameters.environment}}.tfstate'
 
 stages:
 
