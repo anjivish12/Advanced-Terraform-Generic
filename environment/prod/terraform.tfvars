@@ -1,15 +1,15 @@
 rgs = {
   rg1 = {
-    name       = "rg-anjali-dev"
+    name       = "rg-anjali-prod"
     location   = "West US"
-    managed_by = "rg-dev"
+    managed_by = "rg-prod"
   }
 }
 
 vnets = {
   vnet1 = {
     name                = "vnet-test"
-    resource_group_name = "rg-anjali-dev"
+    resource_group_name = "rg-anjali-prod"
     location            = "West US"
     address_space       = ["10.0.0.0/16"]
     subnet = [
@@ -26,7 +26,7 @@ vnets = {
 pips = {
   pip1 = {
     name                = "pip-test1"
-    resource_group_name = "rg-anjali-dev"
+    resource_group_name = "rg-anjali-prod"
     location            = "West US"
     allocation_method   = "Static"
 
@@ -35,9 +35,9 @@ pips = {
 
 keys = {
   key1 = {
-    kv_name  = "keyanji100dev"
+    kv_name  = "keyanji100prod"
     location = "West US"
-    rg_name  = "rg-anjali-dev"
+    rg_name  = "rg-anjali-prod"
     sku_name = "standard"
     rbac_authorization_enabled = true
     public_network_access_enabled = true
@@ -46,17 +46,17 @@ keys = {
 
 secrets = {
   sec1 = {
-    kv_name      = "keyanji100dev"
-    rg_name      = "rg-anjali-dev"
+    kv_name      = "keyanji100prod"
+    rg_name      = "rg-anjali-prod"
     secret_name  = "adminu"
-    secret_value = "rg-anjali-devkvsecret"
+    secret_value = "rg-anjali-prodkvsecret"
   }
   sec2 = {
-    kv_name      = "keyanji100dev"
-    rg_name      = "rg-anjali-dev"
+    kv_name      = "keyanji100prod"
+    rg_name      = "rg-anjali-prod"
 
     secret_name  = "adminpass"
-    secret_value = "rg-anjali-dev@12345"
+    secret_value = "rg-anjali-prod@12345"
   }
 }
 
@@ -65,7 +65,7 @@ vms = {
     subnet_name = "subnet11"
     vnet_name   = "vnet-test"
     pip_name    = "pip-test1"
-    kv_name = "keyanji100dev"
+    kv_name = "keyanji100prod"
     secret_name = "adminu"
     secret_value = "adminpass"
 
@@ -77,11 +77,11 @@ vms = {
     ]
 
     vm_name             = "vm1-test"
-    resource_group_name = "rg-anjali-dev"
+    resource_group_name = "rg-anjali-prod"
     location            = "West US"
     size                = "Standard_D2s_v3"
     admin_username      = "vm1"
-    admin_password      = "rg-anjali-dev@12345"
+    admin_password      = "rg-anjali-prod@12345"
 
     os_disk = [
       {
@@ -106,7 +106,7 @@ nsgs = {
   nsg1 = {
 
     nsg_name                = "nsg1"
-    resource_group_name = "rg-anjali-dev"
+    resource_group_name = "rg-anjali-prod"
     location            = "West US"
     subnet_name = "subnet11"
     virtual_network_name = "vnet-test"
@@ -129,20 +129,20 @@ nsgs = {
 
 servers = {
   server1 = {
-    name = "rg-anjali-devserver1"
+    name = "rg-anjali-prodserver1"
     location = "West US"
-    resource_group_name = "rg-anjali-dev"
+    resource_group_name = "rg-anjali-prod"
     administrator_login = "server12"
-    administrator_login_password = "rg-anjali-dev@12345"
+    administrator_login_password = "rg-anjali-prod@12345"
     version                      = "12.0"
   }
 }
 
 databases = {
   db1 = {
-      name = "rg-anjali-devdb121"
-      server_name = "rg-anjali-devserver1"
-      resource_group_name = "rg-anjali-dev"
+      name = "rg-anjali-proddb121"
+      server_name = "rg-anjali-prodserver1"
+      resource_group_name = "rg-anjali-prod"
       collation    = "SQL_Latin1_General_CP1_CI_AS"
       license_type = "LicenseIncluded"
       max_size_gb  = 2
@@ -155,7 +155,7 @@ stgs = {
   stg1 = {
     name = "stganji1289"
     location = "West US"
-    resource_group_name = "rg-anjali-dev"
+    resource_group_name = "rg-anjali-prod"
     account_tier             = "Standard"
     account_replication_type = "GRS"
 
@@ -164,8 +164,8 @@ stgs = {
 
 acrs = {
     acr1 = {
-        name = "acrwrg-anjali-dev1"
-        resource_group_name = "rg-anjali-dev"
+        name = "acrwrg-anjali-prod1"
+        resource_group_name = "rg-anjali-prod"
         location = "West US"
         sku = "Premium"
         admin_enabled = false
@@ -176,7 +176,7 @@ acrs = {
 aks = {
     aks1 = {
         name = "aks098"
-        resource_group_name = "rg-anjali-dev"
+        resource_group_name = "rg-anjali-prod"
         location = "North Central US"
         dns_prefix = "dns1"
         default_node_pool = [{
