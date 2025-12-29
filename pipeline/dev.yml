@@ -60,7 +60,7 @@ stages:
   - job: cost 
     displayName: Cost & Imapct Assessment 
     steps:
-  
+
     - task: TerraformTask@5
       displayName: init
       inputs:
@@ -76,7 +76,7 @@ stages:
       displayName: infra cost
       inputs:
         targetType: 'inline'
-        script: 'infracost --breakdown --path="$(System.DefaultWorkingDirectory)\environment\dev"'
+        script: 'infracost breakdown --path .'
         workingDirectory: '$(System.DefaultWorkingDirectory)\environment\dev'
 
 - stage: Planning
