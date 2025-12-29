@@ -5,10 +5,10 @@ pool: anjalipool
 
 stages:
 
-- stage: pre commit stage
+- stage: precommitstage
   displayName: Pre-commit stage
   jobs:
-  - job: Pre-commit 
+  - job: Precommit 
     displayName: Pre-commit job
     steps:
     - task: TerraformTask@5
@@ -42,7 +42,7 @@ stages:
         script: 'tflint'
         workingDirectory: '$(System.DefaultWorkingDirectory)\environment\dev'
 
-- stage: Cost stage
+- stage: Coststage
   displayName: Cost & Imapct Assessment stage
   jobs:
   - job: cost 
@@ -85,6 +85,7 @@ stages:
   jobs:
   - job: ApprovalGoverance
     displayName: Approval & Goverance Job
+    pool: server
     steps:
     - task: ManualValidation@1
       displayName: manualvalidation
@@ -95,7 +96,7 @@ stages:
 - stage: Deploy
   displayName: Deploy / Apply stage
   jobs:
-  - job: Deploy
+  - job: Deploy 
     displayName: Deploy / Apply Job
     steps:
     - task: TerraformTask@5
