@@ -3,8 +3,21 @@ trigger:
 - main
 
 pool: anjalipool
+
+parameters:
+- name: environment
+  displayName: select environment
+  type: string
+  values: 
+  - dev
+  - prod
+  - qa
+  default: dev
+
 variables:
-  workDir: '$(System.DefaultWorkingDirectory)\environment\qa'
+  workDir: '$(System.DefaultWorkingDirectory)\environment\${parameters.environment}'
+  backend: 'dev.tfstate'
+
 stages:
 
 - stage: precommitstage
@@ -32,7 +45,7 @@ stages:
         backendServiceArm: 'simplecred'
         backendAzureRmStorageAccountName: 'stg1234anji'
         backendAzureRmContainerName: 'tfstate'
-        backendAzureRmKey: 'dev.tfstate'
+        backendAzureRmKey: $(backend)
 
     - task: TerraformTask@5
       displayName: validate
@@ -72,7 +85,7 @@ stages:
         backendServiceArm: 'simplecred'
         backendAzureRmStorageAccountName: 'stg1234anji'
         backendAzureRmContainerName: 'tfstate'
-        backendAzureRmKey: 'dev.tfstate'
+        backendAzureRmKey: $(backend)
 
     - task: PowerShell@2
       displayName: infra cost
@@ -96,7 +109,7 @@ stages:
         backendServiceArm: 'simplecred'
         backendAzureRmStorageAccountName: 'stg1234anji'
         backendAzureRmContainerName: 'tfstate'
-        backendAzureRmKey: 'dev.tfstate'
+        backendAzureRmKey: $(backend)
     
     - task: TerraformTask@5
       displayName: plan
@@ -134,7 +147,7 @@ stages:
         backendServiceArm: 'simplecred'
         backendAzureRmStorageAccountName: 'stg1234anji'
         backendAzureRmContainerName: 'tfstate'
-        backendAzureRmKey: 'dev.tfstate'
+        backendAzureRmKey: $(backend)
 
     - task: TerraformTask@5
       displayName: apply
