@@ -20,7 +20,18 @@ stages:
         outputTo: 'console'
         customCommand: 'fmt'
         environmentServiceNameAzureRM: 'simplecred'
-    
+      
+    - task: TerraformTask@5
+      displayName: init
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: '$(System.DefaultWorkingDirectory)\environment\dev'
+        backendServiceArm: 'simplecred'
+        backendAzureRmStorageAccountName: 'stg1234anji'
+        backendAzureRmContainerName: 'tfstate'
+        backendAzureRmKey: 'dev.tfstate'
+
     - task: TerraformTask@5
       displayName: validate
       inputs:
