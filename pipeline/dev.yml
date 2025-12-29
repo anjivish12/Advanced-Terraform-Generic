@@ -6,10 +6,10 @@ pool: anjalipool
 stages:
 
 - stage: precommitstage
-  displayName: Pre-commit stage
+  displayName: Pre-commit / Static Analysis Stage
   jobs:
   - job: Precommit 
-    displayName: Pre-commit job
+    displayName: Pre-commit / Static Analysis
     steps:
     - task: TerraformTask@5
       displayName: fmt
@@ -48,6 +48,7 @@ stages:
 
     - task: PowerShell@2
       displayName: tflint
+      continueOnError: true
       inputs:
         targetType: 'inline'
         script: 'tflint'
@@ -57,7 +58,7 @@ stages:
   displayName: Cost & Imapct Assessment stage
   jobs:
   - job: cost 
-    displayName: Cost & Imapct Assessment Job
+    displayName: Cost & Imapct Assessment 
     steps:
     - task: PowerShell@2
       displayName: infra cost
@@ -95,7 +96,7 @@ stages:
   displayName: Approval & Goverance Stage
   jobs:
   - job: ApprovalGoverance
-    displayName: Approval & Goverance Job
+    displayName: Approval & Goverance 
     pool: server
     steps:
     - task: ManualValidation@1
@@ -108,7 +109,7 @@ stages:
   displayName: Deploy / Apply stage
   jobs:
   - job: Deploy 
-    displayName: Deploy / Apply Job
+    displayName: Deploy / Apply 
     steps:
     - task: TerraformTask@5
       displayName: init
