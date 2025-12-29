@@ -60,6 +60,17 @@ stages:
   - job: cost 
     displayName: Cost & Imapct Assessment 
     steps:
+  
+    - task: TerraformTask@5
+      displayName: init
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: '$(System.DefaultWorkingDirectory)\environment\dev'
+        backendServiceArm: 'simplecred'
+        backendAzureRmStorageAccountName: 'stg1234anji'
+        backendAzureRmContainerName: 'tfstate'
+        backendAzureRmKey: 'dev.tfstate'
     - task: PowerShell@2
       displayName: infra cost
       inputs:
