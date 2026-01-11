@@ -3,10 +3,10 @@ variable "vms" {
     # data block variable
     subnet_name         = string
     vnet_name           = string
-    pip_name            = string
-    kv_name = string
-    secret_name = string
-    secret_value = string
+    # pip_name            = string
+    # kv_name = string
+    # secret_name = string
+    # secret_value = string
 
    # NIC resource details
     nic_name            = string

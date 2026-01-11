@@ -1,4 +1,3 @@
-
 resource "azurerm_network_interface" "nic" {
   for_each = var.vms
 
@@ -13,7 +12,7 @@ resource "azurerm_network_interface" "nic" {
       name                                         = ip_configuration.value.name
       subnet_id                                    = data.azurerm_subnet.subnetids[each.key].id
       private_ip_address_allocation                = ip_configuration.value.private_ip_address_allocation
-      public_ip_address_id                         = data.azurerm_public_ip.pipids[each.key].id
+      # public_ip_address_id                         = data.azurerm_public_ip.pipids[each.key].id
 
       private_ip_address                           = ip_configuration.value.private_ip_address
       private_ip_address_version                   = ip_configuration.value.private_ip_address_version
@@ -40,8 +39,8 @@ resource "azurerm_linux_virtual_machine" "virtual_machine" {
   resource_group_name             = each.value.resource_group_name
   location                        = each.value.location
   size                            = each.value.size
-  admin_username                  = data.azurerm_key_vault_secret.secret_name[each.key].name
-  admin_password                  = data.azurerm_key_vault_secret.secret_value[each.key].value
+  admin_username                  = each.value.admin_username
+  admin_password                  = each.value.admin_password
   disable_password_authentication = false
   network_interface_ids = [
     azurerm_network_interface.nic[each.key].id,

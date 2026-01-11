@@ -92,10 +92,10 @@ variable "vms" {
     # data block variable
     subnet_name = string
     vnet_name   = string
-    pip_name    = string
-    kv_name = string
-    secret_name = string
-    secret_value = string
+    # pip_name    = string
+    # kv_name = string
+    # secret_name = string
+    # secret_value = string
     # NIC resource details
     nic_name            = string
     location            = string
@@ -562,3 +562,84 @@ variable "aks" {
       }))
     }))  
 }
+
+variable "bastion" {
+    type = map(object({
+        subnet_name = string
+        virtual_network_name = string
+        pip_name = string
+
+      name = string
+      location = string
+      resource_group_name = string
+      ip_configuration = list(object({
+        name = string
+        
+      }))
+    }))
+}
+
+# variable "vmss" {
+#     type = map(object({
+#       subnet_name = string
+#       virtual_network_name = string
+#       resource_group_name = string 
+#       name = string
+#       location = string
+#       sku = string
+#       instances = number
+#       admin_username = string
+#       admin_password = string
+#       source_image_reference = list(object({
+#         publisher = string
+#         offer = string
+#         version = string 
+#         sku = string
+#       }))
+#       os_disk = list(object({
+#         storage_account_type = string
+#         caching = string 
+#       }))
+#       network_interface = list(object({
+#         name = string
+#         ip_configuration = list(object({
+#           name = string
+#         }))
+#       }))
+
+#     }))
+  
+# }
+
+variable "lb" {
+    type = map(object({
+      pip_name = string
+      resource_group_name = string
+      location = string
+      frontend_ip_configuration = list(object({
+        frontend_ip_configuration_name = string
+      }))
+      backendpool_name = string
+      healthprobe_name = string
+      port = number
+      rule_name = string
+      protocol = string
+      frontend_port = number
+      backend_port = number
+      lb_name = string
+      frontend_ip_configuration_name = string
+
+    }))
+  
+}
+
+variable "lbassoction" {
+  type = map(object({
+    nic_name = string
+    resource_group_name = string
+    lb_name = string
+    backendpool_name = string 
+    ip_configuration_name = string
+  }))
+}
+

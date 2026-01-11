@@ -72,3 +72,30 @@ module "aks" {
     aks = var.aks
   
 }
+
+module "bastion" {
+  depends_on = [ module.vnet, module.public_ip ]
+  source = "../../modules/azurerm_bastion_host"
+  bastion = var.bastion
+  
+}
+
+# module "vmss" {
+#   depends_on = [ module.vnet, module.resource_group ]
+#   source = "../../modules/azurerm_VMSS"
+#   vmss = var.vmss
+  
+# }
+module "lb" {
+  depends_on = [ module.public_ip, module.resource_group ]
+  source = "../../modules/azurerm_Load_Balancer"
+  lb = var.lb
+  
+}
+
+module "lb_associate" {
+  depends_on = [ module.lb, module.vm ]
+  source = "../../modules/azurerm_Load_Balancer_Association"
+  lbassoction =  var.lbassoction
+  
+}

@@ -14,8 +14,18 @@ vnets = {
     address_space       = ["10.0.0.0/16"]
     subnet = [
       {
-        subnet_name      = "subnet11"
+        subnet_name      = "vmsubnet"
         address_prefixes = ["10.0.1.0/24"]
+
+      },
+      {
+        subnet_name      = "AzureBastionSubnet"
+        address_prefixes = ["10.0.2.0/27"]
+
+      },
+       {
+        subnet_name      = "vmss-subnet"
+        address_prefixes = ["10.0.3.0/24"]
 
       }
     ]
@@ -24,8 +34,22 @@ vnets = {
 }
 
 pips = {
-  pip1 = {
-    name                = "pip-test1"
+  # pip1 = {
+  #   name                = "pip-test1"
+  #   resource_group_name = "rg-anjali-qa"
+  #   location            = "West US"
+  #   allocation_method   = "Static"
+
+  # }
+  pip2 = {
+    name                = "bastion-pip"
+    resource_group_name = "rg-anjali-qa"
+    location            = "West US"
+    allocation_method   = "Static"
+
+  }
+  pip3 = {
+    name                = "lb-pip"
     resource_group_name = "rg-anjali-qa"
     location            = "West US"
     allocation_method   = "Static"
@@ -35,7 +59,7 @@ pips = {
 
 keys = {
   key1 = {
-    kv_name  = "keyanji100qa"
+    kv_name  = "keyanji99qa"
     location = "West US"
     rg_name  = "rg-anjali-qa"
     sku_name = "standard"
@@ -46,28 +70,28 @@ keys = {
 
 secrets = {
   sec1 = {
-    kv_name      = "keyanji100qa"
+    kv_name      = "keyanji99qa"
     rg_name      = "rg-anjali-qa"
-    secret_name  = "adminu"
+    secret_name  = "vmadminu"
     secret_value = "rg-anjali-qakvsecret"
   }
   sec2 = {
-    kv_name      = "keyanji100qa"
+    kv_name      = "keyanji99qa"
     rg_name      = "rg-anjali-qa"
 
-    secret_name  = "adminpass"
+    secret_name  = "vmadminpass"
     secret_value = "rg-anjali-qa@12345"
   }
 }
 
 vms = {
   vm1 = {
-    subnet_name = "subnet11"
+    subnet_name = "vmsubnet"
     vnet_name   = "vnet-test"
-    pip_name    = "pip-test1"
-    kv_name = "keyanji100qa"
-    secret_name = "adminu"
-    secret_value = "adminpass"
+    # pip_name    = "pip-test1"
+    # kv_name = "keyanji99qa"
+    # secret_name = "vmadminu"
+    # secret_value = "vmadminpass"
 
     nic_name = "nic-test"
     ip_configuration = [
@@ -108,7 +132,7 @@ nsgs = {
     nsg_name                = "nsg1"
     resource_group_name = "rg-anjali-qa"
     location            = "West US"
-    subnet_name = "subnet11"
+    subnet_name = "vmsubnet"
     virtual_network_name = "vnet-test"
     security_rule = [
         {
@@ -153,7 +177,7 @@ databases = {
 
 stgs = {
   stg1 = {
-    name = "stganji1289qa"
+    name = "stganji340anji"
     location = "West US"
     resource_group_name = "rg-anjali-qa"
     account_tier             = "Standard"
@@ -189,4 +213,92 @@ aks = {
         }]
 
     }
+}
+
+
+bastion = {
+  bastion1 = {
+
+    subnet_name = "AzureBastionSubnet"
+      virtual_network_name = "vnet-test"
+      pip_name = "bastion-pip"
+
+      name = "anjali-bastion"
+      location = "West US"
+      resource_group_name = "rg-anjali-qa"
+      ip_configuration = [
+        {
+          name = "configuration"
+       
+        }
+      ]
+  }
+  
+}
+
+# vmss = {
+#   vmss1 = {
+   
+#       subnet_name = "vmss-subnet"
+#       virtual_network_name = "vnet-test"
+#       resource_group_name = "rg-anjali-qa" 
+#       name = "vmss-testing"
+#       location = "East US 2"
+#       sku = "Standard_D4s_v3"
+#       instances = 2
+#       admin_username = "vmss"
+#       admin_password = "Anjali@12345"
+#       source_image_reference = [{
+#         publisher = "Canonical"
+#         offer     = "0001-com-ubuntu-server-jammy"
+#         sku       = "22_04-lts"
+#         version   = "latest"
+
+#       }]
+#       os_disk = [{
+#         storage_account_type = "Standard_LRS"
+#         caching              = "ReadWrite"
+#       }]
+        
+#       network_interface = [{
+#          name = "networkvmss"
+#         ip_configuration = [ {
+#           name = "internal"
+#         } ]
+       
+#       }] 
+#   }
+# }
+
+lb = {
+  lb1 = {
+      pip_name = "lb-pip"
+      resource_group_name = "rg-anjali-qa"
+      location = "West US"
+      frontend_ip_configuration = [{
+        frontend_ip_configuration_name = "internal"
+      }]
+       
+      backendpool_name = "lb-backend"
+      healthprobe_name = "lb-healthcheck"
+      port = 80
+      rule_name = "lb-rule"
+      protocol = "Tcp"
+      frontend_port = 80
+      backend_port = 80
+      lb_name = "test-lb"
+      frontend_ip_configuration_name = "internal"
+
+  }
+}
+
+lbassoction = {
+  lbassoction = {
+    nic_name = "nic-test"
+    resource_group_name = "rg-anjali-qa"
+    lb_name = "test-lb"
+    backendpool_name = "lb-backend" 
+    ip_configuration_name = "internal"
+    
+  }
 }
