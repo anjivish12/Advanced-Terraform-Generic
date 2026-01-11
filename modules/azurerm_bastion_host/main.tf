@@ -1,7 +1,7 @@
 
 
 resource "azurerm_bastion_host" "bastion" {
-  for_each = var.bastion
+  for_each            = var.bastion
   name                = each.value.name
   location            = each.value.location
   resource_group_name = each.value.resource_group_name
@@ -9,10 +9,10 @@ resource "azurerm_bastion_host" "bastion" {
   dynamic "ip_configuration" {
     for_each = each.value.ip_configuration
     content {
-      name = ip_configuration.value.name
-      subnet_id = data.azurerm_subnet.subnetid[each.key].id
+      name                 = ip_configuration.value.name
+      subnet_id            = data.azurerm_subnet.subnetid[each.key].id
       public_ip_address_id = data.azurerm_public_ip.pipid[each.key].id
     }
-  
+
   }
 }

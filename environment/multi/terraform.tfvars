@@ -27,6 +27,11 @@ vnets = {
         subnet_name      = "vmss-subnet"
         address_prefixes = ["10.0.3.0/24"]
 
+      },
+         {
+        subnet_name      = "ag-subnet"
+        address_prefixes = ["10.0.4.0/24"]
+
       }
     ]
 
@@ -34,13 +39,13 @@ vnets = {
 }
 
 pips = {
-  # pip1 = {
-  #   name                = "pip-test1"
-  #   resource_group_name = "rg-anjali-qa"
-  #   location            = "West US"
-  #   allocation_method   = "Static"
+  pip1 = {
+    name                = "ag-pip"
+    resource_group_name = "rg-anjali-qa"
+    location            = "West US"
+    allocation_method   = "Static"
 
-  # }
+  }
   pip2 = {
     name                = "bastion-pip"
     resource_group_name = "rg-anjali-qa"
@@ -300,5 +305,70 @@ lbassoction = {
     backendpool_name = "lb-backend" 
     ip_configuration_name = "internal"
     
+  }
+}
+
+ag = {
+  ag1 = {
+        pip_name = "ag-pip"
+        subnet_name = "ag-subnet"
+        virtual_network_name = "vnet-test"
+
+        name = "ag-test"
+        resource_group_name = "rg-anjali-qa"
+        location = "West US"
+
+        sku = [{
+            name     = "Standard_v2"
+            tier     = "Standard_v2"
+            capacity = 2
+        }]
+        
+        gateway_ip_configuration  = [{
+          name = "my-gateway-ip-configuration"
+        }]
+         
+        frontend_port  = [{
+          name = "ag-frontendport"
+          
+        }]
+       
+        frontend_ip_configuration  = [{
+          name = "ag-frontendip"
+        }]
+     
+        backend_address_pool = [{
+          name = "ag-backendpool"
+        }]
+         
+        
+        backend_http_settings = [{
+          name                  = "ag-backendhttp"
+          cookie_based_affinity = "Disabled"
+          path                  = "/path1/"
+          port                  = 80
+          protocol              = "Http"
+          request_timeout       = 60
+        }]
+          
+        http_listener  = [{
+          name                           = "ag-listner"
+          frontend_ip_configuration_name = "ag-frontendip"
+          frontend_port_name             = "ag-frontendport"
+          protocol                       = "Http"
+          host_name = "dhoomdhoom.shop"
+        }]
+           
+        request_routing_rule  = [
+          {
+          name                       = "ag-rule"
+          priority                   = 9
+          rule_type                  = "Basic"
+          http_listener_name         = "ag-listner"
+          backend_address_pool_name  = "ag-backendpool"
+          backend_http_settings_name = "ag-backendhttp"
+        }
+        ]
+          
   }
 }

@@ -2,13 +2,13 @@ variable "secrets" {
 
   type = map(object({
     # Required
-    kv_name = string
-    rg_name = string
-    secret_name  = string
+    kv_name     = string
+    rg_name     = string
+    secret_name = string
 
     # Optional values (exactly one must be defined)
-    secret_value          = optional(string)
-    secret_value_wo       = optional(string)
+    secret_value            = optional(string)
+    secret_value_wo         = optional(string)
     secret_value_wo_version = optional(number)
 
     # Optional metadata

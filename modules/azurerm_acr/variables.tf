@@ -1,10 +1,10 @@
 variable "acrs" {
   type = map(object({
-    name                = string
-    resource_group_name = string
-    location            = string
-    sku                 = string
-    admin_enabled       = optional(bool)
+    name                          = string
+    resource_group_name           = string
+    location                      = string
+    sku                           = string
+    admin_enabled                 = optional(bool)
     public_network_access_enabled = optional(bool)
     quarantine_policy_enabled     = optional(bool)
     retention_policy_in_days      = optional(number)
@@ -14,7 +14,7 @@ variable "acrs" {
     anonymous_pull_enabled        = optional(bool)
     data_endpoint_enabled         = optional(bool)
     network_rule_bypass_option    = optional(string)
-    tags = optional(map(string))
+    tags                          = optional(map(string))
 
     identity = optional(list(object({
       type         = string
@@ -35,10 +35,10 @@ variable "acrs" {
     })))
 
     georeplications = optional(list(object({
-      location                 = string
+      location                  = string
       regional_endpoint_enabled = optional(bool)
       zone_redundancy_enabled   = optional(bool)
-      tags = optional(map(string))
+      tags                      = optional(map(string))
     })))
   }))
 }

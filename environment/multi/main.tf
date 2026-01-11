@@ -99,3 +99,10 @@ module "lb_associate" {
   lbassoction =  var.lbassoction
   
 }
+
+module "ag" {
+  depends_on = [ module.public_ip, module.vnet,module.resource_group]
+  source = "../../modules/azurerm_Application_Gateway"
+  ag = var.ag
+  
+}

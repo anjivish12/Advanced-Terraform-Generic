@@ -2,7 +2,7 @@ variable "databases" {
   description = "Map of Azure SQL Databases to deploy."
 
   type = map(object({
-    server_name = string
+    server_name         = string
     resource_group_name = string
 
     name         = string
@@ -12,28 +12,28 @@ variable "databases" {
     sku_name     = optional(string)
     enclave_type = optional(string)
 
-    auto_pause_delay_in_minutes             = optional(number)
-    create_mode                             = optional(string)
-    creation_source_database_id             = optional(string)
-    elastic_pool_id                         = optional(string)
-    geo_backup_enabled                      = optional(bool)
-    maintenance_configuration_name          = optional(string)
-    ledger_enabled                          = optional(bool)
-    min_capacity                            = optional(number)
-    restore_point_in_time                   = optional(string)
-    recover_database_id                     = optional(string)
-    recovery_point_id                       = optional(string)
-    restore_dropped_database_id             = optional(string)
-    restore_long_term_retention_backup_id   = optional(string)
-    read_replica_count                      = optional(number)
-    read_scale                              = optional(bool)
-    sample_name                             = optional(string)
-    storage_account_type                    = optional(string)
-    transparent_data_encryption_enabled     = optional(bool)
-    transparent_data_encryption_key_vault_key_id = optional(string)
+    auto_pause_delay_in_minutes                                = optional(number)
+    create_mode                                                = optional(string)
+    creation_source_database_id                                = optional(string)
+    elastic_pool_id                                            = optional(string)
+    geo_backup_enabled                                         = optional(bool)
+    maintenance_configuration_name                             = optional(string)
+    ledger_enabled                                             = optional(bool)
+    min_capacity                                               = optional(number)
+    restore_point_in_time                                      = optional(string)
+    recover_database_id                                        = optional(string)
+    recovery_point_id                                          = optional(string)
+    restore_dropped_database_id                                = optional(string)
+    restore_long_term_retention_backup_id                      = optional(string)
+    read_replica_count                                         = optional(number)
+    read_scale                                                 = optional(bool)
+    sample_name                                                = optional(string)
+    storage_account_type                                       = optional(string)
+    transparent_data_encryption_enabled                        = optional(bool)
+    transparent_data_encryption_key_vault_key_id               = optional(string)
     transparent_data_encryption_key_automatic_rotation_enabled = optional(bool)
-    zone_redundant                          = optional(bool)
-    secondary_type                          = optional(string)
+    zone_redundant                                             = optional(bool)
+    secondary_type                                             = optional(string)
 
     import = optional(object({
       storage_uri                  = string
