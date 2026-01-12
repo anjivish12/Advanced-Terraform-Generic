@@ -27,10 +27,10 @@ module "secret" {
 }
 
 module "nsg" {
-  depends_on = [ module.resource_group, module.vnet ]
-  source = "../../modules/azurerm_nsg"
-  nsgs = var.nsgs
-  
+  depends_on = [module.resource_group, module.vnet]
+  source     = "../../modules/azurerm_nsg"
+  nsgs       = var.nsgs
+
 }
 module "vm" {
   depends_on = [module.resource_group, module.public_ip, module.vnet, module.kv, module.secret]
@@ -39,70 +39,76 @@ module "vm" {
 }
 
 module "server" {
-  depends_on = [ module.resource_group ]
-  source = "../../modules/azurerm_mssql_server"
-  servers = var.servers
-  
+  depends_on = [module.resource_group]
+  source     = "../../modules/azurerm_mssql_server"
+  servers    = var.servers
+
 }
 
 module "database" {
-  depends_on = [ module.resource_group, module.server ]
-  source = "../../modules/azurerm_mssql_database"
-  databases = var.databases
-  
+  depends_on = [module.resource_group, module.server]
+  source     = "../../modules/azurerm_mssql_database"
+  databases  = var.databases
+
 }
 
 module "stg" {
-  depends_on = [ module.resource_group ]
-  source = "../../modules/azurerm_storage_account"
-  stgs = var.stgs
-  
+  depends_on = [module.resource_group]
+  source     = "../../modules/azurerm_storage_account"
+  stgs       = var.stgs
+
 }
 
 module "acr" {
-  depends_on = [ module.resource_group ]
-  source = "../../modules/azurerm_acr"
-  acrs = var.acrs
-  
+  depends_on = [module.resource_group]
+  source     = "../../modules/azurerm_acr"
+  acrs       = var.acrs
+
 }
 
 module "aks" {
-    depends_on = [ module.resource_group ]
-    source = "../../modules/azurerm_aks"
-    aks = var.aks
-  
+  depends_on = [module.resource_group]
+  source     = "../../modules/azurerm_aks"
+  aks        = var.aks
+
 }
 
 module "bastion" {
-  depends_on = [ module.vnet, module.public_ip ]
-  source = "../../modules/azurerm_bastion_host"
-  bastion = var.bastion
-  
+  depends_on = [module.vnet, module.public_ip]
+  source     = "../../modules/azurerm_bastion_host"
+  bastion    = var.bastion
+
 }
 
 # module "vmss" {
 #   depends_on = [ module.vnet, module.resource_group ]
 #   source = "../../modules/azurerm_VMSS"
 #   vmss = var.vmss
-  
+
 # }
 module "lb" {
-  depends_on = [ module.public_ip, module.resource_group ]
-  source = "../../modules/azurerm_Load_Balancer"
-  lb = var.lb
-  
+  depends_on = [module.public_ip, module.resource_group]
+  source     = "../../modules/azurerm_Load_Balancer"
+  lb         = var.lb
+
 }
 
 module "lb_associate" {
-  depends_on = [ module.lb, module.vm ]
-  source = "../../modules/azurerm_Load_Balancer_Association"
-  lbassoction =  var.lbassoction
-  
+  depends_on  = [module.lb, module.vm]
+  source      = "../../modules/azurerm_Load_Balancer_Association"
+  lbassoction = var.lbassoction
+
 }
 
 module "ag" {
-  depends_on = [ module.public_ip, module.vnet,module.resource_group]
-  source = "../../modules/azurerm_Application_Gateway"
-  ag = var.ag
-  
+  depends_on = [module.public_ip, module.vnet, module.resource_group]
+  source     = "../../modules/azurerm_Application_Gateway"
+  ag         = var.ag
+
+}
+
+module "law" {
+  depends_on   = [module.resource_group]
+  source       = "../../modules/azurerm_Log_Analystics_Workspace"
+  logworkspace = var.logworkspace
 }

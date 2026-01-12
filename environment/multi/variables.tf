@@ -276,46 +276,46 @@ variable "secrets" {
   }))
 }
 variable "nsgs" {
-    type = map(object({
-      nsg_name = string
-      resource_group_name = string
-      location = string
-      subnet_name = string
-      virtual_network_name = string
-      tags = optional(map(string))
+  type = map(object({
+    nsg_name             = string
+    resource_group_name  = string
+    location             = string
+    subnet_name          = string
+    virtual_network_name = string
+    tags                 = optional(map(string))
 
-      security_rule = optional(list(object({
-        name = string
-        priority = number
-        direction = string
-        access = string
-        protocol = string 
-            # Optional arguments
-        description                                = optional(string)
-        source_port_range                          = optional(string)
-        source_port_ranges                         = optional(list(string))
-        destination_port_range                     = optional(string)
-        destination_port_ranges                    = optional(list(string))
-        source_address_prefix                      = optional(string)
-        source_address_prefixes                    = optional(list(string))
-        destination_address_prefix                 = optional(string)
-        destination_address_prefixes               = optional(list(string))
-        source_application_security_group_ids      = optional(list(string))
-        destination_application_security_group_ids = optional(list(string))
-      })))
-    }))
+    security_rule = optional(list(object({
+      name      = string
+      priority  = number
+      direction = string
+      access    = string
+      protocol  = string
+      # Optional arguments
+      description                                = optional(string)
+      source_port_range                          = optional(string)
+      source_port_ranges                         = optional(list(string))
+      destination_port_range                     = optional(string)
+      destination_port_ranges                    = optional(list(string))
+      source_address_prefix                      = optional(string)
+      source_address_prefixes                    = optional(list(string))
+      destination_address_prefix                 = optional(string)
+      destination_address_prefixes               = optional(list(string))
+      source_application_security_group_ids      = optional(list(string))
+      destination_application_security_group_ids = optional(list(string))
+    })))
+  }))
 }
 
 variable "servers" {
-    
-    type = map(object({
-    name                         = string
-    resource_group_name          = string
-    location                     = string
-    version                      = string
-    administrator_login          = optional(string)
-    administrator_login_password = optional(string)
-    minimum_tls_version          = optional(string, "1.2")
+
+  type = map(object({
+    name                          = string
+    resource_group_name           = string
+    location                      = string
+    version                       = string
+    administrator_login           = optional(string)
+    administrator_login_password  = optional(string)
+    minimum_tls_version           = optional(string, "1.2")
     public_network_access_enabled = optional(bool, true)
 
     azuread_administrator = optional(list(object({
@@ -338,37 +338,37 @@ variable "databases" {
   description = "Map of Azure SQL Databases to deploy."
 
   type = map(object({
-    server_name = string
+    server_name         = string
     resource_group_name = string
-    name         = string
-    collation    = optional(string)
-    license_type = optional(string)
-    max_size_gb  = optional(number)
-    sku_name     = optional(string)
-    enclave_type = optional(string)
+    name                = string
+    collation           = optional(string)
+    license_type        = optional(string)
+    max_size_gb         = optional(number)
+    sku_name            = optional(string)
+    enclave_type        = optional(string)
 
-    auto_pause_delay_in_minutes             = optional(number)
-    create_mode                             = optional(string)
-    creation_source_database_id             = optional(string)
-    elastic_pool_id                         = optional(string)
-    geo_backup_enabled                      = optional(bool)
-    maintenance_configuration_name          = optional(string)
-    ledger_enabled                          = optional(bool)
-    min_capacity                            = optional(number)
-    restore_point_in_time                   = optional(string)
-    recover_database_id                     = optional(string)
-    recovery_point_id                       = optional(string)
-    restore_dropped_database_id             = optional(string)
-    restore_long_term_retention_backup_id   = optional(string)
-    read_replica_count                      = optional(number)
-    read_scale                              = optional(bool)
-    sample_name                             = optional(string)
-    storage_account_type                    = optional(string)
-    transparent_data_encryption_enabled     = optional(bool)
-    transparent_data_encryption_key_vault_key_id = optional(string)
+    auto_pause_delay_in_minutes                                = optional(number)
+    create_mode                                                = optional(string)
+    creation_source_database_id                                = optional(string)
+    elastic_pool_id                                            = optional(string)
+    geo_backup_enabled                                         = optional(bool)
+    maintenance_configuration_name                             = optional(string)
+    ledger_enabled                                             = optional(bool)
+    min_capacity                                               = optional(number)
+    restore_point_in_time                                      = optional(string)
+    recover_database_id                                        = optional(string)
+    recovery_point_id                                          = optional(string)
+    restore_dropped_database_id                                = optional(string)
+    restore_long_term_retention_backup_id                      = optional(string)
+    read_replica_count                                         = optional(number)
+    read_scale                                                 = optional(bool)
+    sample_name                                                = optional(string)
+    storage_account_type                                       = optional(string)
+    transparent_data_encryption_enabled                        = optional(bool)
+    transparent_data_encryption_key_vault_key_id               = optional(string)
     transparent_data_encryption_key_automatic_rotation_enabled = optional(bool)
-    zone_redundant                          = optional(bool)
-    secondary_type                          = optional(string)
+    zone_redundant                                             = optional(bool)
+    secondary_type                                             = optional(string)
 
     import = optional(object({
       storage_uri                  = string
@@ -414,33 +414,33 @@ variable "databases" {
 
 variable "stgs" {
   type = map(object({
-    name                     = string
-    resource_group_name      = string
-    location                 = string
-    account_kind             = optional(string)
-    account_tier             = string
-    account_replication_type = string
+    name                              = string
+    resource_group_name               = string
+    location                          = string
+    account_kind                      = optional(string)
+    account_tier                      = string
+    account_replication_type          = string
     provisioned_billing_model_version = optional(string)
     cross_tenant_replication_enabled  = optional(bool)
-    access_tier               = optional(string)
-    edge_zone                 = optional(string)
-    https_traffic_only_enabled = optional(bool)
-    min_tls_version           = optional(string)
-    allow_nested_items_to_be_public = optional(bool)
-    shared_access_key_enabled = optional(bool)
-    public_network_access_enabled = optional(bool)
-    default_to_oauth_authentication = optional(bool)
-    is_hns_enabled            = optional(bool)
-    nfsv3_enabled             = optional(bool)
-    large_file_share_enabled  = optional(bool)
-    local_user_enabled        = optional(bool)
+    access_tier                       = optional(string)
+    edge_zone                         = optional(string)
+    https_traffic_only_enabled        = optional(bool)
+    min_tls_version                   = optional(string)
+    allow_nested_items_to_be_public   = optional(bool)
+    shared_access_key_enabled         = optional(bool)
+    public_network_access_enabled     = optional(bool)
+    default_to_oauth_authentication   = optional(bool)
+    is_hns_enabled                    = optional(bool)
+    nfsv3_enabled                     = optional(bool)
+    large_file_share_enabled          = optional(bool)
+    local_user_enabled                = optional(bool)
     infrastructure_encryption_enabled = optional(bool)
-    sftp_enabled              = optional(bool)
-    dns_endpoint_type         = optional(string)
-    queue_encryption_key_type = optional(string)
-    table_encryption_key_type = optional(string)
-    allowed_copy_scope        = optional(string)
-    tags = optional(map(string))
+    sftp_enabled                      = optional(bool)
+    dns_endpoint_type                 = optional(string)
+    queue_encryption_key_type         = optional(string)
+    table_encryption_key_type         = optional(string)
+    allowed_copy_scope                = optional(string)
+    tags                              = optional(map(string))
 
     identity = optional(list(object({
       type         = string
@@ -453,15 +453,15 @@ variable "stgs" {
     })))
 
     customer_managed_key = optional(list(object({
-      key_vault_key_id        = optional(string)
-      managed_hsm_key_id      = optional(string)
+      key_vault_key_id          = optional(string)
+      managed_hsm_key_id        = optional(string)
       user_assigned_identity_id = string
     })))
 
     network_rules = optional(list(object({
-      default_action            = string
-      bypass                    = optional(list(string))
-      ip_rules                  = optional(list(string))
+      default_action             = string
+      bypass                     = optional(list(string))
+      ip_rules                   = optional(list(string))
       virtual_network_subnet_ids = optional(list(string))
       private_link_access = optional(list(object({
         endpoint_resource_id = string
@@ -476,7 +476,7 @@ variable "stgs" {
       default_service_version       = optional(string)
       last_access_time_enabled      = optional(bool)
       delete_retention_policy = optional(list(object({
-        days                    = optional(number)
+        days                     = optional(number)
         permanent_delete_enabled = optional(bool)
       })))
       restore_policy = optional(list(object({
@@ -503,11 +503,11 @@ variable "stgs" {
 
 variable "acrs" {
   type = map(object({
-    name                = string
-    resource_group_name = string
-    location            = string
-    sku                 = string
-    admin_enabled       = optional(bool)
+    name                          = string
+    resource_group_name           = string
+    location                      = string
+    sku                           = string
+    admin_enabled                 = optional(bool)
     public_network_access_enabled = optional(bool)
     quarantine_policy_enabled     = optional(bool)
     retention_policy_in_days      = optional(number)
@@ -517,7 +517,7 @@ variable "acrs" {
     anonymous_pull_enabled        = optional(bool)
     data_endpoint_enabled         = optional(bool)
     network_rule_bypass_option    = optional(string)
-    tags = optional(map(string))
+    tags                          = optional(map(string))
 
     identity = optional(list(object({
       type         = string
@@ -538,45 +538,45 @@ variable "acrs" {
     })))
 
     georeplications = optional(list(object({
-      location                 = string
+      location                  = string
       regional_endpoint_enabled = optional(bool)
       zone_redundancy_enabled   = optional(bool)
-      tags = optional(map(string))
+      tags                      = optional(map(string))
     })))
   }))
 }
 
 variable "aks" {
-    type = map(object({
-      name = string
-      resource_group_name = string
-      location = string
-      dns_prefix = string
-      default_node_pool = list(object({
-        name = string
-        node_count = number
-        vm_size = string 
-      }))
-      identity = list(object({
-        type = string
-      }))
-    }))  
+  type = map(object({
+    name                = string
+    resource_group_name = string
+    location            = string
+    dns_prefix          = string
+    default_node_pool = list(object({
+      name       = string
+      node_count = number
+      vm_size    = string
+    }))
+    identity = list(object({
+      type = string
+    }))
+  }))
 }
 
 variable "bastion" {
-    type = map(object({
-        subnet_name = string
-        virtual_network_name = string
-        pip_name = string
+  type = map(object({
+    subnet_name          = string
+    virtual_network_name = string
+    pip_name             = string
 
+    name                = string
+    location            = string
+    resource_group_name = string
+    ip_configuration = list(object({
       name = string
-      location = string
-      resource_group_name = string
-      ip_configuration = list(object({
-        name = string
-        
-      }))
+
     }))
+  }))
 }
 
 # variable "vmss" {
@@ -608,92 +608,102 @@ variable "bastion" {
 #       }))
 
 #     }))
-  
+
 # }
 
 variable "lb" {
-    type = map(object({
-      pip_name = string
-      resource_group_name = string
-      location = string
-      frontend_ip_configuration = list(object({
-        frontend_ip_configuration_name = string
-      }))
-      backendpool_name = string
-      healthprobe_name = string
-      port = number
-      rule_name = string
-      protocol = string
-      frontend_port = number
-      backend_port = number
-      lb_name = string
+  type = map(object({
+    pip_name            = string
+    resource_group_name = string
+    location            = string
+    frontend_ip_configuration = list(object({
       frontend_ip_configuration_name = string
-
     }))
-  
+    backendpool_name               = string
+    healthprobe_name               = string
+    port                           = number
+    rule_name                      = string
+    protocol                       = string
+    frontend_port                  = number
+    backend_port                   = number
+    lb_name                        = string
+    frontend_ip_configuration_name = string
+
+  }))
+
 }
 
 variable "lbassoction" {
   type = map(object({
-    nic_name = string
-    resource_group_name = string
-    lb_name = string
-    backendpool_name = string 
+    nic_name              = string
+    resource_group_name   = string
+    lb_name               = string
+    backendpool_name      = string
     ip_configuration_name = string
   }))
 }
 
 variable "ag" {
-    type = map(object({
-        subnet_name = string
-        pip_name = string
-        virtual_network_name = string
-    
-        name = string
-        resource_group_name = string
-        location = string
+  type = map(object({
+    subnet_name          = string
+    pip_name             = string
+    virtual_network_name = string
 
-        sku = list(object({
-          name = string
-          tier = string
-          capacity = number
-        }))
-        gateway_ip_configuration  = list(object({
-          name = string 
-        }))
-        frontend_port  = list(object({
-          name = string
-        }))
-        frontend_ip_configuration  = list(object({
-          name = string
+    name                = string
+    resource_group_name = string
+    location            = string
 
-        }))
-        backend_address_pool = list(object({
-          name = string
-        }))
-        backend_http_settings = list(object({
-          name = string
-          cookie_based_affinity = string
-          path = string
-          port = number
-          protocol = string
-          request_timeout = number 
-        }))
-        http_listener  = list(object({
-            name                           = string
-            frontend_ip_configuration_name = string
-            frontend_port_name             = string
-            protocol                       = string
-            host_name = string
-        }))
-        request_routing_rule  = list(object({
-            name                       = string
-            priority                   = number
-            rule_type                  = string
-            http_listener_name         = string
-            backend_address_pool_name  = string
-            backend_http_settings_name = string
-        }))
+    sku = list(object({
+      name     = string
+      tier     = string
+      capacity = number
+    }))
+    gateway_ip_configuration = list(object({
+      name = string
+    }))
+    frontend_port = list(object({
+      name = string
+    }))
+    frontend_ip_configuration = list(object({
+      name = string
 
     }))
+    backend_address_pool = list(object({
+      name = string
+    }))
+    backend_http_settings = list(object({
+      name                  = string
+      cookie_based_affinity = string
+      path                  = string
+      port                  = number
+      protocol              = string
+      request_timeout       = number
+    }))
+    http_listener = list(object({
+      name                           = string
+      frontend_ip_configuration_name = string
+      frontend_port_name             = string
+      protocol                       = string
+      host_name                      = string
+    }))
+    request_routing_rule = list(object({
+      name                       = string
+      priority                   = number
+      rule_type                  = string
+      http_listener_name         = string
+      backend_address_pool_name  = string
+      backend_http_settings_name = string
+    }))
+
+  }))
+}
+
+variable "logworkspace" {
+  type = map(object({
+    name                = string
+    location            = string
+    resource_group_name = string
+    sku                 = string
+    retention_in_days   = number
+  }))
 }
