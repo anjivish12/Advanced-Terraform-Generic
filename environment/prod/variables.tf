@@ -562,3 +562,148 @@ variable "aks" {
       }))
     }))  
 }
+
+variable "bastion" {
+  type = map(object({
+    subnet_name          = string
+    virtual_network_name = string
+    pip_name             = string
+
+    name                = string
+    location            = string
+    resource_group_name = string
+    ip_configuration = list(object({
+      name = string
+
+    }))
+  }))
+}
+
+# variable "vmss" {
+#     type = map(object({
+#       subnet_name = string
+#       virtual_network_name = string
+#       resource_group_name = string 
+#       name = string
+#       location = string
+#       sku = string
+#       instances = number
+#       admin_username = string
+#       admin_password = string
+#       source_image_reference = list(object({
+#         publisher = string
+#         offer = string
+#         version = string 
+#         sku = string
+#       }))
+#       os_disk = list(object({
+#         storage_account_type = string
+#         caching = string 
+#       }))
+#       network_interface = list(object({
+#         name = string
+#         ip_configuration = list(object({
+#           name = string
+#         }))
+#       }))
+
+#     }))
+
+# }
+
+variable "lb" {
+  type = map(object({
+    pip_name            = string
+    resource_group_name = string
+    location            = string
+    frontend_ip_configuration = list(object({
+      frontend_ip_configuration_name = string
+    }))
+    backendpool_name               = string
+    healthprobe_name               = string
+    port                           = number
+    rule_name                      = string
+    protocol                       = string
+    frontend_port                  = number
+    backend_port                   = number
+    lb_name                        = string
+    frontend_ip_configuration_name = string
+
+  }))
+
+}
+
+variable "lbassoction" {
+  type = map(object({
+    nic_name              = string
+    resource_group_name   = string
+    lb_name               = string
+    backendpool_name      = string
+    ip_configuration_name = string
+  }))
+}
+
+variable "ag" {
+  type = map(object({
+    subnet_name          = string
+    pip_name             = string
+    virtual_network_name = string
+
+    name                = string
+    resource_group_name = string
+    location            = string
+
+    sku = list(object({
+      name     = string
+      tier     = string
+      capacity = number
+    }))
+    gateway_ip_configuration = list(object({
+      name = string
+    }))
+    frontend_port = list(object({
+      name = string
+    }))
+    frontend_ip_configuration = list(object({
+      name = string
+
+    }))
+    backend_address_pool = list(object({
+      name = string
+    }))
+    backend_http_settings = list(object({
+      name                  = string
+      cookie_based_affinity = string
+      path                  = string
+      port                  = number
+      protocol              = string
+      request_timeout       = number
+    }))
+    http_listener = list(object({
+      name                           = string
+      frontend_ip_configuration_name = string
+      frontend_port_name             = string
+      protocol                       = string
+      host_name                      = string
+    }))
+    request_routing_rule = list(object({
+      name                       = string
+      priority                   = number
+      rule_type                  = string
+      http_listener_name         = string
+      backend_address_pool_name  = string
+      backend_http_settings_name = string
+    }))
+
+  }))
+}
+
+variable "logworkspace" {
+  type = map(object({
+    name                = string
+    location            = string
+    resource_group_name = string
+    sku                 = string
+    retention_in_days   = number
+  }))
+}

@@ -35,7 +35,7 @@ pips = {
 
 keys = {
   key1 = {
-    kv_name  = "keyanji100dev"
+    kv_name  = "keyanji100dev12"
     location = "West US"
     rg_name  = "rg-anjali-dev"
     sku_name = "standard"
@@ -46,13 +46,13 @@ keys = {
 
 secrets = {
   sec1 = {
-    kv_name      = "keyanji100dev"
+    kv_name      = "keyanji100dev12"
     rg_name      = "rg-anjali-dev"
     secret_name  = "adminu"
     secret_value = "rg-anjali-devkvsecret"
   }
   sec2 = {
-    kv_name      = "keyanji100dev"
+    kv_name      = "keyanji100dev12"
     rg_name      = "rg-anjali-dev"
 
     secret_name  = "adminpass"
@@ -65,7 +65,7 @@ vms = {
     subnet_name = "subnet11"
     vnet_name   = "vnet-test"
     pip_name    = "pip-test1"
-    kv_name = "keyanji100dev"
+    kv_name = "keyanji100dev12"
     secret_name = "adminu"
     secret_value = "adminpass"
 
@@ -189,4 +189,132 @@ aks = {
         }]
 
     }
+}
+
+bastion = {
+  bastion1 = {
+
+    subnet_name          = "AzureBastionSubnet"
+    virtual_network_name = "vnet-test"
+    pip_name             = "bastion-pip"
+
+    name                = "anjali-bastion"
+    location            = "West US"
+    resource_group_name = "rg-anjali-dev"
+    ip_configuration = [
+      {
+        name = "configuration"
+
+      }
+    ]
+  }
+
+}
+
+lb = {
+  lb1 = {
+    pip_name            = "lb-pip"
+    resource_group_name = "rg-anjali-dev"
+    location            = "West US"
+    frontend_ip_configuration = [{
+      frontend_ip_configuration_name = "internal"
+    }]
+
+    backendpool_name               = "lb-backend"
+    healthprobe_name               = "lb-healthcheck"
+    port                           = 80
+    rule_name                      = "lb-rule"
+    protocol                       = "Tcp"
+    frontend_port                  = 80
+    backend_port                   = 80
+    lb_name                        = "test-lb"
+    frontend_ip_configuration_name = "internal"
+
+  }
+}
+
+lbassoction = {
+  lbassoction = {
+    nic_name              = "nic-test"
+    resource_group_name   = "rg-anjali-dev"
+    lb_name               = "test-lb"
+    backendpool_name      = "lb-backend"
+    ip_configuration_name = "internal"
+
+  }
+}
+
+ag = {
+  ag1 = {
+    pip_name             = "ag-pip"
+    subnet_name          = "ag-subnet"
+    virtual_network_name = "vnet-test"
+
+    name                = "ag-test"
+    resource_group_name = "rg-anjali-dev"
+    location            = "West US"
+
+    sku = [{
+      name     = "Standard_v2"
+      tier     = "Standard_v2"
+      capacity = 2
+    }]
+
+    gateway_ip_configuration = [{
+      name = "my-gateway-ip-configuration"
+    }]
+
+    frontend_port = [{
+      name = "ag-frontendport"
+
+    }]
+
+    frontend_ip_configuration = [{
+      name = "ag-frontendip"
+    }]
+
+    backend_address_pool = [{
+      name = "ag-backendpool"
+    }]
+
+
+    backend_http_settings = [{
+      name                  = "ag-backendhttp"
+      cookie_based_affinity = "Disabled"
+      path                  = "/path1/"
+      port                  = 80
+      protocol              = "Http"
+      request_timeout       = 60
+    }]
+
+    http_listener = [{
+      name                           = "ag-listner"
+      frontend_ip_configuration_name = "ag-frontendip"
+      frontend_port_name             = "ag-frontendport"
+      protocol                       = "Http"
+      host_name                      = "dhoomdhoom.shop"
+    }]
+
+    request_routing_rule = [
+      {
+        name                       = "ag-rule"
+        priority                   = 9
+        rule_type                  = "Basic"
+        http_listener_name         = "ag-listner"
+        backend_address_pool_name  = "ag-backendpool"
+        backend_http_settings_name = "ag-backendhttp"
+      }
+    ]
+
+  }
+}
+
+logworkspace = {
+  law1 = {
+    name                = "logworkspace12"
+    location            = "West US"
+    resource_group_name = "rg-anjali-dev"
+    sku                 = "PerGB2018"
+    retention_in_days   = 30
+  }
 }
