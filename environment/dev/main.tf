@@ -27,10 +27,10 @@ module "secret" {
 }
 
 module "nsg" {
-  depends_on = [ module.resource_group, module.vnet ]
-  source = "../../modules/azurerm_nsg"
-  nsgs = var.nsgs
-  
+  depends_on = [module.resource_group, module.vnet]
+  source     = "../../modules/azurerm_nsg"
+  nsgs       = var.nsgs
+
 }
 module "vm" {
   depends_on = [module.resource_group, module.public_ip, module.vnet, module.kv, module.secret]
@@ -39,38 +39,38 @@ module "vm" {
 }
 
 module "server" {
-  depends_on = [ module.resource_group ]
-  source = "../../modules/azurerm_mssql_server"
-  servers = var.servers
-  
+  depends_on = [module.resource_group]
+  source     = "../../modules/azurerm_mssql_server"
+  servers    = var.servers
+
 }
 
 module "database" {
-  depends_on = [ module.resource_group, module.server ]
-  source = "../../modules/azurerm_mssql_database"
-  databases = var.databases
-  
+  depends_on = [module.resource_group, module.server]
+  source     = "../../modules/azurerm_mssql_database"
+  databases  = var.databases
+
 }
 
 module "stg" {
-  depends_on = [ module.resource_group ]
-  source = "../../modules/azurerm_storage_account"
-  stgs = var.stgs
-  
+  depends_on = [module.resource_group]
+  source     = "../../modules/azurerm_storage_account"
+  stgs       = var.stgs
+
 }
 
 module "acr" {
-  depends_on = [ module.resource_group ]
-  source = "../../modules/azurerm_acr"
-  acrs = var.acrs
-  
+  depends_on = [module.resource_group]
+  source     = "../../modules/azurerm_acr"
+  acrs       = var.acrs
+
 }
 
 module "aks" {
-    depends_on = [ module.resource_group ]
-    source = "../../modules/azurerm_aks"
-    aks = var.aks
-  
+  depends_on = [module.resource_group]
+  source     = "../../modules/azurerm_aks"
+  aks        = var.aks
+
 }
 
 module "bastion" {
@@ -105,4 +105,17 @@ module "law" {
   depends_on   = [module.resource_group]
   source       = "../../modules/azurerm_Log_Analystics_Workspace"
   logworkspace = var.logworkspace
+}
+
+module "ag_associate" {
+  depends_on = [ module.ag, module.vmss ]
+  source = "../../modules/azurerm_ag_associate"
+  agassociate = var.aagassociate
+  
+}
+module "vmss" {
+  depends_on = [module.resource_group, module.vnet]
+  source     = "../../modules/azurerm_VMSS"
+  vmss       = var.vmss
+
 }
