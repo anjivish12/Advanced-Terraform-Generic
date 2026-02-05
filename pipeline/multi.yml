@@ -1,7 +1,7 @@
 
 trigger: none
 
-pool: anjalipool
+pool: simple
 
 parameters:
 - name: environment
