@@ -16,7 +16,6 @@ parameters:
 variables:
   workDir: '$(System.DefaultWorkingDirectory)\environment\${{parameters.environment}}'
   backend: '${{parameters.environment}}.tfstate'
-  serviceConnection: 'simple'
 
 stages:
 
@@ -42,8 +41,8 @@ stages:
         provider: 'azurerm'
         command: 'init'
         workingDirectory: '$(workDir)'
-        backendServiceArm: '$(serviceConnection)'
-        backendAzureRmStorageAccountName: 'stg12534anji'
+        backendServiceArm: 'simplecred'
+        backendAzureRmStorageAccountName: 'stg1234anji'
         backendAzureRmContainerName: 'tfstate'
         backendAzureRmKey: '$(backend)'
 
@@ -82,8 +81,8 @@ stages:
         provider: 'azurerm'
         command: 'init'
         workingDirectory: '$(workDir)'
-        backendServiceArm: '$(serviceConnection)'
-        backendAzureRmStorageAccountName: 'stg12534anji'
+        backendServiceArm: 'simplecred'
+        backendAzureRmStorageAccountName: 'stg1234anji'
         backendAzureRmContainerName: 'tfstate'
         backendAzureRmKey: '$(backend)'
 
@@ -106,8 +105,8 @@ stages:
         provider: 'azurerm'
         command: 'init'
         workingDirectory: '$(workDir)'
-        backendServiceArm: '$(serviceConnection)'
-        backendAzureRmStorageAccountName: 'stg12534anji'
+        backendServiceArm: 'simplecred'
+        backendAzureRmStorageAccountName: 'stg1234anji'
         backendAzureRmContainerName: 'tfstate'
         backendAzureRmKey: '$(backend)'
     
@@ -144,8 +143,8 @@ stages:
         provider: 'azurerm'
         command: 'init'
         workingDirectory: '$(workDir)'
-        backendServiceArm: '$(serviceConnection)'
-        backendAzureRmStorageAccountName: 'stg12534anji'
+        backendServiceArm: 'simplecred'
+        backendAzureRmStorageAccountName: 'stg1234anji'
         backendAzureRmContainerName: 'tfstate'
         backendAzureRmKey: '$(backend)'
 
