@@ -42,7 +42,7 @@ stages:
         command: 'init'
         workingDirectory: '$(workDir)'
         backendServiceArm: 'simplecred'
-        backendAzureRmStorageAccountName: 'stg1234anji'
+        backendAzureRmStorageAccountName: 'stg12534anji'
         backendAzureRmContainerName: 'tfstate'
         backendAzureRmKey: '$(backend)'
 
@@ -82,7 +82,7 @@ stages:
         command: 'init'
         workingDirectory: '$(workDir)'
         backendServiceArm: 'simplecred'
-        backendAzureRmStorageAccountName: 'stg1234anji'
+        backendAzureRmStorageAccountName: 'stg12534anji'
         backendAzureRmContainerName: 'tfstate'
         backendAzureRmKey: '$(backend)'
 
@@ -106,7 +106,7 @@ stages:
         command: 'init'
         workingDirectory: '$(workDir)'
         backendServiceArm: 'simplecred'
-        backendAzureRmStorageAccountName: 'stg1234anji'
+        backendAzureRmStorageAccountName: 'stg12534anji'
         backendAzureRmContainerName: 'tfstate'
         backendAzureRmKey: '$(backend)'
     
@@ -144,7 +144,7 @@ stages:
         command: 'init'
         workingDirectory: '$(workDir)'
         backendServiceArm: 'simplecred'
-        backendAzureRmStorageAccountName: 'stg1234anji'
+        backendAzureRmStorageAccountName: 'stg12534anji'
         backendAzureRmContainerName: 'tfstate'
         backendAzureRmKey: '$(backend)'
 
