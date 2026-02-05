@@ -16,6 +16,7 @@ parameters:
 variables:
   workDir: '$(System.DefaultWorkingDirectory)\environment\${{parameters.environment}}'
   backend: '${{parameters.environment}}.tfstate'
+  serviceConnection: 'simple'
 
 stages:
 
@@ -33,7 +34,7 @@ stages:
         workingDirectory: '$(workDir)'
         outputTo: 'console'
         customCommand: 'fmt'
-        environmentServiceNameAzureRM: 'simplecred'
+        environmentServiceNameAzureRM: '$(serviceConnection)'
       
     - task: TerraformTask@5
       displayName: init
@@ -41,8 +42,8 @@ stages:
         provider: 'azurerm'
         command: 'init'
         workingDirectory: '$(workDir)'
-        backendServiceArm: 'simplecred'
-        backendAzureRmStorageAccountName: 'stg1234anji'
+        backendServiceArm: '$(serviceConnection)'
+        backendAzureRmStorageAccountName: 'stg12534anji'
         backendAzureRmContainerName: 'tfstate'
         backendAzureRmKey: '$(backend)'
 
@@ -81,8 +82,8 @@ stages:
         provider: 'azurerm'
         command: 'init'
         workingDirectory: '$(workDir)'
-        backendServiceArm: 'simplecred'
-        backendAzureRmStorageAccountName: 'stg1234anji'
+        backendServiceArm: '$(serviceConnection)'
+        backendAzureRmStorageAccountName: 'stg12534anji'
         backendAzureRmContainerName: 'tfstate'
         backendAzureRmKey: '$(backend)'
 
@@ -105,8 +106,8 @@ stages:
         provider: 'azurerm'
         command: 'init'
         workingDirectory: '$(workDir)'
-        backendServiceArm: 'simplecred'
-        backendAzureRmStorageAccountName: 'stg1234anji'
+        backendServiceArm: '$(serviceConnection)'
+        backendAzureRmStorageAccountName: 'stg12534anji'
         backendAzureRmContainerName: 'tfstate'
         backendAzureRmKey: '$(backend)'
     
@@ -116,7 +117,7 @@ stages:
         provider: 'azurerm'
         command: 'plan'
         workingDirectory: '$(workDir)'
-        environmentServiceNameAzureRM: 'simplecred'
+        environmentServiceNameAzureRM: '$(serviceConnection)'
 
 - stage: manualvalidation
   displayName: Approval & Goverance Stage
@@ -143,8 +144,8 @@ stages:
         provider: 'azurerm'
         command: 'init'
         workingDirectory: '$(workDir)'
-        backendServiceArm: 'simplecred'
-        backendAzureRmStorageAccountName: 'stg1234anji'
+        backendServiceArm: '$(serviceConnection)'
+        backendAzureRmStorageAccountName: 'stg12534anji'
         backendAzureRmContainerName: 'tfstate'
         backendAzureRmKey: '$(backend)'
 
@@ -154,4 +155,4 @@ stages:
         provider: 'azurerm'
         command: 'apply'
         workingDirectory: '$(workDir)'
-        environmentServiceNameAzureRM: 'simplecred'
+        environmentServiceNameAzureRM: '$(serviceConnection)'
